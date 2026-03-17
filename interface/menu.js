@@ -68,6 +68,7 @@ q.appendChild(btn);
 ================================================== */
 
 const menus={
+
 "Automação":[
 "Agendador de comandos",
 "Rotacionador de aldeias",
@@ -75,6 +76,7 @@ const menus={
 "Auto clicar botões",
 "Detector de captcha"
 ],
+
 "Ataque / Defesa":[
 "Assistente de saque",
 "Farm mapa",
@@ -82,6 +84,7 @@ const menus={
 "Sniper de defesa",
 "Detector de ataques"
 ],
+
 "Tropas / Construção":[
 "Recrutador automático",
 "Upador de edifícios",
@@ -89,6 +92,7 @@ const menus={
 "Gerenciador de filas",
 "Treinamento inteligente"
 ],
+
 "Recursos / Coleta":[
 "Balanceador de recursos",
 "Cunhar moedas",
@@ -96,6 +100,7 @@ const menus={
 "Coleta individual",
 "Coleta em massa"
 ],
+
 "Interface / Utilidades":[
 "Etiquetador de comandos",
 "Quickbar personalizada",
@@ -103,7 +108,12 @@ const menus={
 "Lista de coordenadas",
 "Painel de estatísticas"
 ]
+
 };
+
+/* ==================================================
+   ÍCONES
+================================================== */
 
 const menuIcons={
 "Automação":"⚙️",
@@ -113,7 +123,9 @@ const menuIcons={
 "Interface / Utilidades":"🧰"
 };
 
-/* ================================================== */
+/* ==================================================
+   JANELA
+================================================== */
 
 function abrirJanela(){
 
@@ -144,7 +156,9 @@ criarMenus();
 abrirConteudo(primeiro);
 }
 
-/* ================================================== */
+/* ==================================================
+   MENU LATERAL
+================================================== */
 
 function criarMenus(){
 
@@ -169,7 +183,9 @@ box.appendChild(item);
 });
 }
 
-/* ================================================== */
+/* ==================================================
+   CONTEÚDO
+================================================== */
 
 function abrirConteudo(nome){
 
@@ -216,56 +232,21 @@ area.innerHTML=html;
 }
 
 /* ==================================================
-   EXECUTOR (VAI SER MOVIDO DEPOIS)
+   TOGGLE (AGORA USA ENGINE)
 ================================================== */
-
-function executarScript(nome){
-
-const screen=new URLSearchParams(location.search).get("screen");
-
-if(nome==="Auto completar construção grátis"){
-if(screen!=="main") return;
-setInterval(()=>{
-document.querySelectorAll(".btn-instant-free")
-.forEach(b=>b.click());
-},3000);
-}
-
-if(nome==="Auto clicar botões"){
-setInterval(()=>{
-document.querySelectorAll(".btn-confirm-yes")
-.forEach(b=>b.click());
-},4000);
-}
-
-if(nome==="Recrutador automático"){
-if(screen!=="train") return;
-setInterval(()=>{
-document.querySelector(".btn-recruit")?.click();
-},5000);
-}
-
-}
-
-/* ================================================== */
 
 window.toggleScript=function(nome,status){
 saveState(nome,status);
-if(status) executarScript(nome);
+RabbitEngine.toggle(nome,status);
 };
 
-function iniciarScriptsAtivos(){
-const states=getStates();
-Object.entries(states).forEach(([n,a])=>{
-if(a) executarScript(n);
-});
-}
-
-/* ================================================== */
+/* ==================================================
+   INIT
+================================================== */
 
 function init(){
 waitQuestlog(criarBotao);
-setTimeout(iniciarScriptsAtivos,2000);
+setTimeout(()=>RabbitEngine.init(),2000);
 }
 
 return { init };
