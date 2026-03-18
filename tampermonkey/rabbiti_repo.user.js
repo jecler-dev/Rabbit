@@ -7,10 +7,10 @@
 // @match        *://*/*
 
 // arquivos do projeto
-// @require https://raw.githubusercontent.com/seu-user/meu-projeto/main/src/utils.js
-// @require https://raw.githubusercontent.com/seu-user/meu-projeto/main/src/file1.js
-// @require https://raw.githubusercontent.com/seu-user/meu-projeto/main/src/file2.js
-// @require https://raw.githubusercontent.com/seu-user/meu-projeto/main/src/file3.js
+// @require https://raw.githubusercontent.com/jecler-dev/Rabbit/refs/heads/main/tampermonkey/raio_de_ataque.js
+// @require https://raw.githubusercontent.com/jecler-dev/Rabbit/refs/heads/main/tampermonkey/painel_lateral.js
+// @require https://raw.githubusercontent.com/jecler-dev/Rabbit/refs/heads/main/tampermonkey/barra_plus.js
+// @require https://raw.githubusercontent.com/jecler-dev/Rabbit/refs/heads/main/tampermonkey/Autofarm_V2.js
 
 // atualização automática
 // @updateURL    https://raw.githubusercontent.com/seu-user/meu-projeto/main/main.user.js
