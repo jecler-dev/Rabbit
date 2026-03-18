@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         RabbitScript - Repo
 // @namespace    https://github.com/jecler-dev
@@ -13,9 +14,9 @@
 // @require https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/barra_plus.js
 // @require https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/Autofarm_V2.js
 
-// atualização automática
-// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/rabbit_repo.user.js
-// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/rabbit_repo.user.js
+// atualização automática (CORRETO)
+@updateURL    https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/rabbit_repo.user.js
+@downloadURL  https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/rabbit_repo.user.js
 
 // ==/UserScript==
 
