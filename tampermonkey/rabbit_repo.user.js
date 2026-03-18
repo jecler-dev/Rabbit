@@ -1,4 +1,3 @@
-```js
 // ==UserScript==
 // @name         RabbitScript - Repo
 // @namespace    https://github.com/jecler-dev
