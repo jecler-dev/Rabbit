@@ -6,6 +6,8 @@
 // @description Farmgod and send attack automatically at Loot Assistant at random intervals
 // @downloadURL https://update.greasyfork.org/scripts/514955/Autofarm%20V2.user.js
 // @updateURL https://update.greasyfork.org/scripts/514955/Autofarm%20V2.meta.js
+// @grant GM_openInTab
+// @grant GM_addStyle
 // ==/UserScript==
 
 (function () {
