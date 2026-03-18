@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Meu Projeto
+// @name         Repositorio RabbitScripts
 // @match        *://*/*
 // @require https://raw.githubusercontent.com/user/repo/main/pasta/file1.js
 // @require https://raw.githubusercontent.com/user/repo/main/pasta/file2.js
