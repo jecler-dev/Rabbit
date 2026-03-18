@@ -13,8 +13,8 @@
 // @require https://raw.githubusercontent.com/jecler-dev/Rabbit/refs/heads/main/tampermonkey/Autofarm_V2.js
 
 // atualização automática
-// @updateURL    https://raw.githubusercontent.com/seu-user/meu-projeto/main/main.user.js
-// @downloadURL  https://raw.githubusercontent.com/seu-user/meu-projeto/main/main.user.js
+// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/rabbiti_repo.user.js
+// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/rabbiti_repo.user.js
 
 // ==/UserScript==
 
