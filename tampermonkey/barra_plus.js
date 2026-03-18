@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         RabbitScrips - BarraPlus final
 
