@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         RabbitScripts - Painel Lateral 1.0
-// @namespace    RabbitScripts 
+// @name         RabbitScripts - Painel Lateral 2.0
+// @namespace    Rabbit
 // @version      1.0
 // @icon         https://i.imgur.com/7WgHTT8.gif
 // @description  Botões flutuantes TW com export/import e painel centralizado, salva no localStorage e recarrega página ao fechar
