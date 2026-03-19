@@ -18,11 +18,12 @@
         "https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/";
 
     const scripts = [
-        "autofarm_v2.user.js",
-        "barra_plus.user.js",
-        "painel_lateral.user.js",
-        "radar_de_ataque.user.js"
-    ];
+    "loader_status.user.js", // 👈 coloque PRIMEIRO
+    "autofarm_v2.user.js",
+    "barra_plus.user.js",
+    "painel_lateral.user.js",
+    "radar_de_ataque.user.js"
+];
 
     function loadScript(file) {
         const s = document.createElement("script");
