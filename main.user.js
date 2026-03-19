@@ -2,6 +2,7 @@
 // @name         🐰 Rabbit Pack PRO
 // @namespace    rabbit.pack.pro
 // @version      1.0
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=tribalwars.com.br
 // @match        *://*.tribalwars.com.br/*
 // @grant        none
 
