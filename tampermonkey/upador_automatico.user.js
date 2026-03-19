@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name                🐰RabbitScrips🐰 - Upador Automatico
 // @version              1.0 
-// @icon                https://i.imgur.com/7WgHTT8.gif
 // @description         Esse Script serve para upar automaticamente as construções do Game Tribal Wars, o script realiza a atividade em formato inicial resolvendo as Quest do game, e após o término das Quest o script realiza upagem de acordo com perfil pré definido pelo autor do script. (mas pode ser modificado a alteração de como é feito a upagem, pelo próprio usuário.
 // @codigo              Conteudo feito em linguagem javascript com base em EcmaScript totalmente Opensource
 // @author		      Marcos v.s Marques
