@@ -7,15 +7,15 @@
 // @match        https://*.tribalwars.com.br/*
 // @grant        none
 // @run-at       document-start
-// @updateURL    https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js
-// @downloadURL  https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js
+// @updateURL    https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/loader.user.js
+// @downloadURL  https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/loader.user.js
 // ==/UserScript==
 
 (function () {
     "use strict";
 
     const BASE =
-        "https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js";
+        "https://raw.githubusercontent.com/jecler-dev/Rabbit/main/tampermonkey/";
 
     const scripts = [
         "autofarm_v2.user.js",
@@ -26,7 +26,7 @@
 
     function loadScript(src) {
         const s = document.createElement("script");
-        s.src = src + "?v=" + Date.now(); // força atualização
+        s.src = src + "?v=" + Date.now(); // evita cache
         s.async = false;
         document.head.appendChild(s);
     }
