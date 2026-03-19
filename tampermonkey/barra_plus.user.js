@@ -6,8 +6,8 @@
 // @match        *://*.tribalwars.com.br/*
 // @grant        none
 // @run-at       document-end
-// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/barra_plus.user.js.js
-// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/barra_plus.user.js.js
+// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/barra_plus.user.js
+// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/barra_plus.user.js
 // ==/UserScript==
 
 (function() {
