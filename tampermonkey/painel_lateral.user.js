@@ -5,6 +5,8 @@
 // @description  Botões flutuantes TW com export/import e painel centralizado, salva no localStorage e recarrega página ao fechar
 // @match        https://*.tribalwars.com.br/*
 // @grant        none
+// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/painel_lateral.user.js
+// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/painel_lateral.user.js
 // ==/UserScript==
 
 (function () {
