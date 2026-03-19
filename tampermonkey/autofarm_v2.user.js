@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Autofarm V2
+// @name         🐰RabbitScrips🐰 - Autofarm V2
 // @version      3
 // @include      https://*/game.php*screen=am_farm*
 // @namespace https://greasyfork.org/users/1388863
