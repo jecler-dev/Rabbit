@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Raio de Ataque ULTRA (Painel Lateral)
+// @name         Radar de Ataque (Painel Lateral)
 // @version      5.0
 // @match        https://*.tribalwars.com.br/*screen=map*
 // @grant        none
