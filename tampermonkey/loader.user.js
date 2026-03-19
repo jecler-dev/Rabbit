@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         🐰RabbitScripts Loader
 // @namespace    https://github.com/jecler-dev
-// @version      1.0
+// @version      1.1
 // @description  Loader oficial do pack RabbitScripts
 // @author       RabbitScripts
 // @match        https://*.tribalwars.com.br/*
@@ -24,12 +24,12 @@
         "radar_de_ataque.user.js"
     ];
 
-    function loadScript(src) {
+    function loadScript(file) {
         const s = document.createElement("script");
-        s.src = src + "?v=" + Date.now(); // evita cache
+        s.src = BASE + file + "?v=" + Date.now();
         s.async = false;
-        document.head.appendChild(s);
+        document.documentElement.appendChild(s);
     }
 
-    scripts.forEach(file => loadScript(BASE + file));
+    scripts.forEach(loadScript);
 })();
