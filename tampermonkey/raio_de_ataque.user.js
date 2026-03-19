@@ -1,79 +1,100 @@
 // ==UserScript==
-// @name         Raio de Ataque
-// @version      1.0
+// @name         Raio de Ataque ULTRA (Painel Lateral)
+// @version      5.0
 // @match        https://*.tribalwars.com.br/*screen=map*
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
-(function(){
+(function () {
 "use strict";
-
-if(typeof TWMap === "undefined" || !TWMap.villages) return;
 
 /* ================= CONFIG ================= */
 
 const CONFIG = {
-    minDelay: 800,
-    maxDelay: 1600,
-    maxCommands: 50
+    minDelay: 900,
+    maxDelay: 1700,
+    batchSize: 50,
+    batchPause: 8000
 };
 
-const STORAGE_CONFIG = "TW_ATTACK_CONFIG";
+const STORAGE_CONFIG="TW_ATTACK_CONFIG";
 
-/* ================= VARIÁVEIS ================= */
+/* ================= WAIT MAP ================= */
 
-const sourceX = game_data.village.x;
-const sourceY = game_data.village.y;
+function wait(cb){
+    let i=setInterval(()=>{
+        if(window.TWMap && window.$ && window.game_data){
+            clearInterval(i);
+            cb();
+        }
+    },500);
+}
 
-let villages = TWMap.villages;
-let targets = [];
-let attackedCount = 0;
-let running = false;
-let queue = [];
+wait(init);
 
-/* ================= CONFIG SALVA ================= */
+/* ================= INIT ================= */
+
+function init(){
+
+let targets=[];
+let attackedCount=0;
+let running=false;
+let queue=[];
+let batchCounter=0;
+
+/* ================= STORAGE ================= */
 
 function loadConfig(){
-    let cfg = JSON.parse(localStorage.getItem(STORAGE_CONFIG));
-    return cfg || { min: 0, max: 20 };
+    return JSON.parse(localStorage.getItem(STORAGE_CONFIG))
+        || {min:0,max:20};
 }
 
-function saveConfig(min, max){
-    localStorage.setItem(STORAGE_CONFIG, JSON.stringify({ min, max }));
+function saveConfig(min,max){
+    localStorage.setItem(STORAGE_CONFIG,
+        JSON.stringify({min,max}));
 }
 
-/* ================= FUNÇÕES ================= */
+/* ================= UTILS ================= */
 
 function distance(x1,y1,x2,y2){
     return Math.hypot(x1-x2,y1-y2);
 }
 
 function randomDelay(){
-    return Math.floor(Math.random() * (CONFIG.maxDelay - CONFIG.minDelay) + CONFIG.minDelay);
+    return Math.floor(
+        Math.random()*
+        (CONFIG.maxDelay-CONFIG.minDelay)
+        + CONFIG.minDelay
+    );
 }
 
-function scanTargets(minRadius, maxRadius){
+/* ================= SCAN ================= */
 
-    targets = [];
-    attackedCount = 0;
+function scanTargets(minRadius,maxRadius){
 
-    for(let k in villages){
+    targets=[];
+    attackedCount=0;
 
-        let v = villages[k];
-        let coords = TWMap.CoordByXY(k);
+    const sx=game_data.village.x;
+    const sy=game_data.village.y;
 
-        if(v.owner === "0"){
+    for(let k in TWMap.villages){
 
-            let d = distance(sourceX, sourceY, coords[0], coords[1]);
+        let v=TWMap.villages[k];
+        let coords=TWMap.CoordByXY(k);
 
-            if(d >= minRadius && d <= maxRadius){
-                targets.push({ id: v.id, dist: d });
+        if(v.owner==="0"){
+
+            let d=distance(sx,sy,coords[0],coords[1]);
+
+            if(d>=minRadius && d<=maxRadius){
+                targets.push({id:v.id,dist:d});
             }
         }
     }
 
     targets.sort((a,b)=>a.dist-b.dist);
-    targets = targets.slice(0, CONFIG.maxCommands);
 
     updateStatus();
 }
@@ -82,9 +103,9 @@ function scanTargets(minRadius, maxRadius){
 
 function sendAttack(village){
 
-    let url = TWMap.urls.ctx["mp_farm_a"]
-        .replace(/__village__/, village.id)
-        .replace(/__source__/, game_data.village.id);
+    let url=TWMap.urls.ctx["mp_farm_a"]
+        .replace("__village__",village.id)
+        .replace("__source__",game_data.village.id);
 
     TribalWars.get(url,null,function(){
         TWMap.context.ajaxDone(null,url);
@@ -93,81 +114,140 @@ function sendAttack(village){
     });
 }
 
+/* ================= FILA ================= */
+
 function processQueue(){
 
-    if(!running || queue.length === 0){
-        running = false;
-        $("#tw_attack_toggle").text("⚔️");
+    if(!running || queue.length===0){
+        finish();
         return;
     }
 
-    let village = queue.shift();
-    sendAttack(village);
+    if(batchCounter>=CONFIG.batchSize){
 
-    setTimeout(processQueue, randomDelay());
+        batchCounter=0;
+        setStatus("⏳ Pausa entre lotes...");
+
+        setTimeout(processQueue,CONFIG.batchPause);
+        return;
+    }
+
+    let village=queue.shift();
+
+    sendAttack(village);
+    batchCounter++;
+
+    setTimeout(processQueue,randomDelay());
 }
+
+function finish(){
+    running=false;
+    $("#tw_attack_toggle").text("⚔️");
+    setStatus("✅ Finalizado");
+}
+
+/* ================= CONTROLE ================= */
 
 function startAttacks(){
 
-    let min = parseFloat($("#tw_min").val()) || 0;
-    let max = parseFloat($("#tw_max").val()) || 20;
+    let min=parseFloat($("#tw_min").val())||0;
+    let max=parseFloat($("#tw_max").val())||20;
 
-    saveConfig(min, max);
+    saveConfig(min,max);
 
-    if(targets.length === 0){
-        scanTargets(min, max);
-    }
+    if(targets.length===0)
+        scanTargets(min,max);
 
-    running = true;
+    queue=[...targets];
+    running=true;
+    batchCounter=0;
+
     $("#tw_attack_toggle").text("🛑");
+    setStatus("🚀 Atacando...");
 
-    queue = [...targets];
     processQueue();
 }
 
 function stopAttacks(){
-    running = false;
+    running=false;
+    queue=[];
     $("#tw_attack_toggle").text("⚔️");
-    queue = [];
+    setStatus("⛔ Parado");
 }
 
-/* ================= UI (DIALOG) ================= */
+/* ================= UI ================= */
 
-function openDialog(){
+function createPanel(){
 
-    const cfg = loadConfig();
+if($("#tw_sidepanel").length) return;
 
-    let html = `
-    <div style="text-align:center">
-        <h3>Raio de Ataque PRO</h3>
+const cfg=loadConfig();
 
-        Min/Max:<br>
-        <input id="tw_min" type="number" value="${cfg.min}" style="width:50px">
-        <input id="tw_max" type="number" value="${cfg.max}" style="width:50px"><br><br>
+$("body").append(`
+<div id="tw_sidepanel">
+    <div id="tw_header">⚔️ Raio ULTRA</div>
 
-        <div id="tw_found">Aldeias encontradas: 0</div>
-        <div id="tw_attacked">Aldeias atacadas: 0</div><br>
+    Min/Max:<br>
+    <input id="tw_min" type="number" value="${cfg.min}">
+    <input id="tw_max" type="number" value="${cfg.max}">
 
-        <button id="tw_scan">🔍 Escanear</button>
-        <button id="tw_attack_toggle">⚔️</button>
-    </div>
-    `;
+    <br><br>
 
-    Dialog.show("tw_attack", html);
+    <div id="tw_found">Aldeias encontradas: 0</div>
+    <div id="tw_attacked">Aldeias atacadas: 0</div>
+    <div id="tw_status">Idle</div>
 
-    /* EVENTOS */
+    <br>
 
-    $("#tw_scan").click(()=>{
-        let min = parseFloat($("#tw_min").val()) || 0;
-        let max = parseFloat($("#tw_max").val()) || 20;
+    <button id="tw_scan">🔍 Escanear</button>
+    <button id="tw_attack_toggle">⚔️</button>
+</div>
+`);
 
-        saveConfig(min, max);
-        scanTargets(min, max);
-    });
+$("<style>").text(`
+#tw_sidepanel{
+position:fixed;
+top:80px;
+right:0;
+width:220px;
+background:#f4e4bc;
+border-left:3px solid #6b4f2a;
+padding:10px;
+z-index:9999;
+font-size:12px;
+box-shadow:-3px 0 8px rgba(0,0,0,0.3);
+}
 
-    $("#tw_attack_toggle").click(()=>{
-        running ? stopAttacks() : startAttacks();
-    });
+#tw_header{
+font-weight:bold;
+margin-bottom:8px;
+text-align:center;
+}
+
+#tw_sidepanel input{
+width:60px;
+margin:2px;
+}
+
+#tw_sidepanel button{
+width:100%;
+margin-top:4px;
+cursor:pointer;
+}
+`).appendTo("head");
+
+/* eventos */
+
+$("#tw_scan").click(()=>{
+    scanTargets(
+        parseFloat($("#tw_min").val())||0,
+        parseFloat($("#tw_max").val())||20
+    );
+});
+
+$("#tw_attack_toggle").click(()=>{
+    running ? stopAttacks() : startAttacks();
+});
 }
 
 /* ================= STATUS ================= */
@@ -177,20 +257,29 @@ function updateStatus(){
     $("#tw_attacked").text(`Aldeias atacadas: ${attackedCount}`);
 }
 
-/* ================= INIT ================= */
+function setStatus(t){
+    $("#tw_status").text(t);
+}
 
-// botão pequeno no mapa pra abrir
-let btn = document.createElement("button");
-btn.innerText = "⚔️ Raio";
-btn.style.position = "fixed";
-btn.style.top = "100px";
-btn.style.right = "20px";
-btn.style.zIndex = 9999;
-btn.style.padding = "6px";
-btn.style.cursor = "pointer";
+/* ================= BOTÃO ================= */
 
-btn.onclick = openDialog;
+let btn=document.createElement("button");
+
+btn.innerText="⚔️ Raio";
+btn.style.position="fixed";
+btn.style.top="120px";
+btn.style.right="20px";
+btn.style.zIndex=9999;
+btn.style.padding="6px 10px";
+btn.style.background="#6b4f2a";
+btn.style.color="#fff";
+btn.style.border="1px solid #3a2a12";
+btn.style.cursor="pointer";
+
+btn.onclick=createPanel;
 
 document.body.appendChild(btn);
+
+}
 
 })();
