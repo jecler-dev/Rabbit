@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐰RabbitScripts Loader
-// @namespace    https://github.com/SEU-USUARIO
+// @namespace    https://github.com/jecler-dev
 // @version      1.0
 // @description  Loader oficial do pack RabbitScripts
 // @author       RabbitScripts
