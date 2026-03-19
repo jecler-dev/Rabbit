@@ -5,7 +5,6 @@
 // @description  Busca aldeias por raio/distância e envia ataques automaticamente via painel lateral
 // @author       RabbitScripts
 // @match        https://*.tribalwars.com.br/*screen=map*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=tribalwars.com.br
 // @grant        none
 // @run-at       document-end
 // @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/radar_de_ataque.user.js
