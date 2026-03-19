@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         RabbitScripts - Painel Lateral 2.0
+// @name         🐰RabbitScrips🐰 - Painel Lateral 2.0
 // @namespace    Rabbit
 // @version      1.0
 // @icon         https://i.imgur.com/7WgHTT8.gif
