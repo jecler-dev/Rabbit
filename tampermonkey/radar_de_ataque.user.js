@@ -1,9 +1,15 @@
 // ==UserScript==
-// @name         🐰RabbitScrips🐰 - Radar de Ataque (Painel Lateral)
+// @name         🐰RabbitScripts🐰 - Radar de Ataque (Painel Lateral)
+// @namespace    https://github.com/SEU-USUARIO
 // @version      1.0
+// @description  Busca aldeias por raio/distância e envia ataques automaticamente via painel lateral
+// @author       RabbitScripts
 // @match        https://*.tribalwars.com.br/*screen=map*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=tribalwars.com.br
 // @grant        none
 // @run-at       document-end
+// @downloadURL  https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/radar_de_ataque.user.js
+// @updateURL    https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/tampermonkey/radar_de_ataque.user.js
 // ==/UserScript==
 
 (function () {
