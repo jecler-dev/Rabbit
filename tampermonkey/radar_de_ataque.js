@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐰RabbitScrips🐰 - Radar de Ataque (Painel Lateral)
-// @version      5.0
+// @version      1.0
 // @match        https://*.tribalwars.com.br/*screen=map*
 // @grant        none
 // @run-at       document-end
