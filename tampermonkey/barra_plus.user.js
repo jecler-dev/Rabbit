@@ -1,6 +1,5 @@
 // ==UserScript==
-// @name         RabbitScrips - BarraPlus final
-
+// @name         🐰RabbitScrips🐰 - BarraPlus final
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Quickbar
