@@ -7,20 +7,21 @@
 // @match        https://*.tribalwars.com.br/*
 // @grant        none
 // @run-at       document-start
-// @updateURL    https://raw.githubusercontent.com/SEU-USUARIO/Rabbit/main/loader.user.js
-// @downloadURL  https://raw.githubusercontent.com/SEU-USUARIO/Rabbit/main/loader.user.js
+// @updateURL    https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js
+// @downloadURL  https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js
 // ==/UserScript==
 
 (function () {
     "use strict";
 
     const BASE =
-        "https://raw.githubusercontent.com/SEU-USUARIO/Rabbit/main/scripts/";
+        "https://github.com/jecler-dev/Rabbit/edit/main/tampermonkey/loader.user.js";
 
     const scripts = [
-        "radar.user.js",
-        "quickbar.user.js",
-        "sniper.user.js"
+        "autofarm_v2.user.js",
+        "barra_plus.user.js",
+        "painel_lateral.user.js",
+        "radar_de_ataque.user.js"
     ];
 
     function loadScript(src) {
