@@ -1,55 +1,77 @@
+```javascript
 // ==UserScript==
 // @name         🐰 Rabbit Pack PRO
-// @namespace    rabbit.pack.pro
-// @version      1.0
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=tribalwars.com.br
+// @namespace    jotadev.rabbit.pack.pro
+// @version      5.0
 // @match        *://*.tribalwars.com.br/*
 // @grant        none
 
-/* ==================================================
-   CORE
-================================================== */
+// CORE
+// @require https://cdn.jsdelivr.net/gh/SEU_USER/SEU_REPO/core/engine.js
 
-// @require https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/core/engine.js
-
-
-/* ==================================================
-   INTERFACE
-================================================== */
-
-// @require https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/interface/theme.js
-// @require https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/interface/menu.js
-
-
-/* ==================================================
-   MODULES
-================================================== */
-
-// @require https://github.com/jecler-dev/Rabbit/raw/refs/heads/main/modules/auto_build.js
-
+// INTERFACE
+// @require https://cdn.jsdelivr.net/gh/SEU_USER/SEU_REPO/interface/menu.js
+// @require https://cdn.jsdelivr.net/gh/SEU_USER/SEU_REPO/interface/theme.js
 
 // ==/UserScript==
 
-(function(){
-
+(function () {
 'use strict';
 
 /* ==================================================
-   START
+   STORAGE
 ================================================== */
 
-function startRabbit(){
+const STORAGE_KEY = "rabbit_pack_pro";
 
-console.log("🐰 Rabbit Pack iniciado");
+function getStates(){
+return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+}
 
-RabbitMenu.init();
-
+function saveState(name,status){
+const s=getStates();
+s[name]=status;
+localStorage.setItem(STORAGE_KEY,JSON.stringify(s));
 }
 
 /* ==================================================
-   INIT DELAY (evita bugs do TW)
+   TOGGLE GLOBAL (ENGINE)
 ================================================== */
 
-setTimeout(startRabbit,2000);
+window.RabbitToggle = function(nome,status){
 
-})();
+saveState(nome,status);
+
+RabbitEngine.toggle(nome,status,(api)=>{
+executarScript(nome,api);
+});
+
+};
+
+/* ==================================================
+   EXECUTOR DE MÓDULOS
+================================================== */
+
+function executarScript(nome, api){
+
+const screen = new URLSearchParams(location.search).get("screen");
+
+/* ================= AUTOMAÇÃO ================= */
+
+if(nome==="Auto clicar botões"){
+
+api.setInterval(()=>{
+document.querySelectorAll(".btn-confirm-yes")
+.forEach(b=>b.click());
+},4000);
+
+}
+
+if(nome==="Auto completar construção grátis"){
+
+if(screen!=="main") return;
+
+api.setInterval(()=>{
+document.querySelectorAll(".btn-instant-free")
+.forEach(b=>b.click());
+```
