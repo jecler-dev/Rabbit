@@ -101,9 +101,10 @@ const menus={
 "Coleta em massa"
 ],
 
+/* ✅ ALTERADO AQUI */
 "Interface / Utilidades":[
+"BarraPlus",
 "Etiquetador de comandos",
-"Quickbar personalizada",
 "Scanner de bárbaras",
 "Lista de coordenadas",
 "Painel de estatísticas"
@@ -232,7 +233,7 @@ area.innerHTML=html;
 }
 
 /* ==================================================
-   TOGGLE (AGORA USA ENGINE)
+   TOGGLE
 ================================================== */
 
 window.toggleScript=function(nome,status){
