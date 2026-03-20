@@ -1,68 +1,188 @@
+/* ==========================================
+   🐰 Rabbit Engine PRO
+   Sistema modular do Pack Rabbit
+========================================== */
+
 const RabbitEngine = {
 
 modules:{},
 running:{},
+started:false,
 
-/* ========================= */
+/* ==========================================
+   REGISTER
+========================================== */
 
 register(name, fn){
-this.modules[name] = fn;
+
+    if(this.modules[name]){
+        console.warn("🐰 Módulo já registrado:", name);
+        return;
+    }
+
+    this.modules[name] = fn;
 },
 
-/* ========================= */
+/* ==========================================
+   SAVE STATE
+========================================== */
+
+saveState(){
+
+    const states = {};
+
+    Object.keys(this.running).forEach(name=>{
+        states[name] = true;
+    });
+
+    localStorage.setItem(
+        "rabbit_pack_pro",
+        JSON.stringify(states)
+    );
+},
+
+/* ==========================================
+   START
+========================================== */
 
 start(name){
 
-if(this.running[name]) return;
+    if(this.running[name]) return;
 
-const fn = this.modules[name];
-if(!fn) return;
+    const fn = this.modules[name];
 
-console.log("🐰 Start:", name);
+    if(!fn){
+        console.warn("🐰 Módulo não encontrado:", name);
+        return;
+    }
 
-const instance = fn();
+    console.log("🐰 Start:", name);
 
-this.running[name] = instance || true;
+    try{
 
+        const instance = fn();
+
+        this.running[name] = instance || true;
+
+        this.saveState();
+
+    }catch(e){
+        console.error("🐰 Erro ao iniciar:", name, e);
+    }
 },
 
-/* ========================= */
+/* ==========================================
+   STOP
+========================================== */
 
 stop(name){
 
-if(!this.running[name]) return;
+    if(!this.running[name]) return;
 
-console.log("🐰 Stop:", name);
+    console.log("🐰 Stop:", name);
 
-const inst = this.running[name];
+    const inst = this.running[name];
 
-if(inst && inst.stop){
-inst.stop();
-}
+    try{
+        if(inst && typeof inst.stop === "function"){
+            inst.stop();
+        }
+    }catch(e){
+        console.error("🐰 Erro ao parar:", name, e);
+    }
 
-delete this.running[name];
+    delete this.running[name];
 
+    this.saveState();
 },
 
-/* ========================= */
+/* ==========================================
+   TOGGLE
+========================================== */
 
-toggle(name, status){
+toggle(name){
 
-if(status) this.start(name);
-else this.stop(name);
-
+    if(this.running[name])
+        this.stop(name);
+    else
+        this.start(name);
 },
 
-/* ========================= */
+/* ==========================================
+   AUTO RECONNECT (⭐ PROFISSIONAL)
+   Reativa módulos após mudanças internas
+========================================== */
+
+reconnect(){
+
+    Object.keys(this.running).forEach(name=>{
+
+        const inst = this.running[name];
+
+        // módulos simples não precisam reconnect
+        if(inst === true) return;
+
+        if(inst && typeof inst.reconnect === "function"){
+            try{
+                inst.reconnect();
+            }catch(e){
+                console.warn("🐰 reconnect falhou:", name);
+            }
+        }
+
+    });
+},
+
+/* ==========================================
+   OBSERVA MUDANÇA DE PÁGINA TW
+========================================== */
+
+observeNavigation(){
+
+    let lastUrl = location.href;
+
+    setInterval(()=>{
+
+        if(location.href !== lastUrl){
+
+            lastUrl = location.href;
+
+            console.log("🐰 Navegação detectada");
+
+            this.reconnect();
+        }
+
+    }, 800);
+},
+
+/* ==========================================
+   INIT
+========================================== */
 
 init(){
 
-const states = JSON.parse(localStorage.getItem("rabbit_pack_pro")||"{}");
+    if(this.started) return;
+    this.started = true;
 
-Object.entries(states).forEach(([name,active])=>{
-if(active) this.start(name);
-});
+    console.log("🐰 Rabbit Engine iniciado");
 
+    const states = JSON.parse(
+        localStorage.getItem("rabbit_pack_pro") || "{}"
+    );
+
+    Object.entries(states).forEach(([name,active])=>{
+        if(active) this.start(name);
+    });
+
+    this.observeNavigation();
 }
 
 };
+
+/* ==========================================
+   AUTO INIT
+========================================== */
+
+window.addEventListener("load", () => {
+    setTimeout(()=>RabbitEngine.init(), 500);
+});
