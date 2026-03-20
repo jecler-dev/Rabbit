@@ -1,107 +1,31 @@
-/* ================================
-   🐰 Rabbit Module — Barra Plus
-   Arquivo: modulos/barra_plus.js
-================================ */
+if(nome==="Teste ON/OFF"){
 
-RabbitEngine.register("Barra Plus", () => {
+let count = 0;
 
-    console.log("🐰 Barra Plus iniciada");
+api.setInterval(()=>{
 
-    let interval = null;
-    let container = null;
+count++;
 
-    /* ============================
-       CRIA BARRA
-    ============================ */
+console.log("🐰 Teste rodando:", count);
 
-    function createBar() {
+// indicador visual na tela
+let el = document.getElementById("rabbit_test_box");
 
-        if (document.getElementById("rabbit-barra-plus"))
-            return;
+if(!el){
+el = document.createElement("div");
+el.id = "rabbit_test_box";
+el.style.position = "fixed";
+el.style.bottom = "10px";
+el.style.right = "10px";
+el.style.background = "green";
+el.style.color = "white";
+el.style.padding = "8px";
+el.style.zIndex = 9999;
+document.body.appendChild(el);
+}
 
-        container = document.createElement("div");
-        container.id = "rabbit-barra-plus";
+el.innerText = "Rodando: " + count;
 
-        container.style = `
-            position:fixed;
-            top:0;
-            left:0;
-            right:0;
-            height:34px;
-            background:#3a2f1b;
-            border-bottom:1px solid #000;
-            z-index:99999;
-            display:flex;
-            align-items:center;
-            padding:0 8px;
-            gap:8px;
-            font-size:12px;
-            color:#fff;
-        `;
+},1000);
 
-        container.innerHTML = `
-            <b>🐰 Barra Plus</b>
-
-            <button id="rb-overview">Visão Geral</button>
-            <button id="rb-barracks">Quartel</button>
-            <button id="rb-stable">Estábulo</button>
-            <button id="rb-smith">Ferreiro</button>
-        `;
-
-        document.body.appendChild(container);
-
-        /* BOTÕES */
-
-        document
-            .getElementById("rb-overview")
-            .onclick = () => location.href = "?screen=overview";
-
-        document
-            .getElementById("rb-barracks")
-            .onclick = () => location.href = "?screen=barracks";
-
-        document
-            .getElementById("rb-stable")
-            .onclick = () => location.href = "?screen=stable";
-
-        document
-            .getElementById("rb-smith")
-            .onclick = () => location.href = "?screen=smith";
-    }
-
-    /* ============================
-       LOOP (caso precise atualizar)
-    ============================ */
-
-    function startLoop() {
-        interval = setInterval(() => {
-            createBar();
-        }, 2000);
-    }
-
-    /* ============================
-       START
-    ============================ */
-
-    createBar();
-    startLoop();
-
-    /* ============================
-       STOP (OBRIGATÓRIO NO RABBIT)
-    ============================ */
-
-    return {
-        stop() {
-
-            console.log("🐰 Barra Plus parada");
-
-            if (interval)
-                clearInterval(interval);
-
-            const bar = document.getElementById("rabbit-barra-plus");
-            if (bar)
-                bar.remove();
-        }
-    };
-
-});
+}
